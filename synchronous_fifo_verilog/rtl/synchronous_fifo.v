@@ -1,11 +1,6 @@
 `timescale 1ns / 1ps
 
-// Parameterized synchronous FIFO.
-// - Single clock, synchronous active-high reset.
-// - Writes are accepted only when !full.
-// - Reads are accepted only when !empty.
-// - dout updates on an accepted read and otherwise holds its value.
-// - DEPTH must be >= 2. PTR_WIDTH is derived for non-power-of-two depths too.
+
 module synchronous_fifo #(
     parameter integer DATA_WIDTH = 8,
     parameter integer DEPTH      = 16,
@@ -13,7 +8,7 @@ module synchronous_fifo #(
     parameter integer COUNT_WIDTH = $clog2(DEPTH + 1)
 ) (
     input  wire                  clk,
-    input  wire                  rst,       // synchronous, active high
+    input  wire                  rst,      
     input  wire                  wr_en,
     input  wire                  rd_en,
     input  wire [DATA_WIDTH-1:0] din,
@@ -33,7 +28,7 @@ module synchronous_fifo #(
     assign full  = (count == DEPTH);
     assign empty = (count == 0);
 
-    // Wrap pointers at DEPTH, including when DEPTH is not a power of two.
+   
     function [PTR_WIDTH-1:0] next_ptr;
         input [PTR_WIDTH-1:0] ptr;
         begin
