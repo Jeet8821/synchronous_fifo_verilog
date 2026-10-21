@@ -1,10 +1,6 @@
 `timescale 1ns / 1ps
 
-// Nexys A7-100T board demo for the parameterized synchronous FIFO.
-// SW[7:0] selects the byte to write.
-// BTNU writes one byte; BTND reads one byte; BTNC resets the FIFO.
-// LED[7:0] shows the most recently read byte.
-// LED[8] = full, LED[9] = empty, LED[13:10] = occupancy count [3:0].
+
 module nexys_a7_fifo_top (
     input  wire        CLK100MHZ,
     input  wire [7:0]  SW,
@@ -27,7 +23,7 @@ module nexys_a7_fifo_top (
     wire fifo_empty;
     wire [COUNT_WIDTH-1:0] fifo_count;
 
-    // Synchronize and debounce the mechanical buttons; produce one-cycle pulses.
+    
     button_onepulse #(.CLK_HZ(100_000_000), .DEBOUNCE_MS(10)) u_write_button (
         .clk(CLK100MHZ), .rst(rst), .button_in(BTNU), .pulse_out(write_pulse)
     );
@@ -51,7 +47,7 @@ module nexys_a7_fifo_top (
         .count(fifo_count)
     );
 
-    // Keep the last read data visible; update status/count indicators continuously.
+   
     always @(posedge CLK100MHZ) begin
         if (rst) begin
             LED <= 16'b0;
